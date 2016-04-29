@@ -5,7 +5,14 @@
 
 PACKAGES="build-essential vim git curl"
 DEVSTACK_REPO="https://github.com/openstack-dev/devstack.git"
-DEVSTACK_BRANCH="stable/mitaka"
+
+if [[ $# -eq 0 ]]; then
+
+    DEVSTACK_BRANCH="stable/mitaka"
+
+else
+    DEVSTACK_BRANCH=$1
+fi
 
 # Install essential packages
 echo "Installing essential packages..."
@@ -14,15 +21,10 @@ sudo apt-get install -y $PACKAGES
 
 # Write vim preferences
 echo "Setting vim preferences..."
-cat <<'EOF' > /root/.vimrc
-:highlight ExtraWhitespace ctermbg=red guibg=red
-:match ExtraWhitespace /\s\+$/
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set nu
-set nowrap
-EOF
+wget -O /root/.vimrc https://raw.githubusercontent.com/michaelrice/dot-files/master/.vimrc
+
+echo "Setting up the git config opts"
+wget -O /root/.gitconfig https://raw.githubusercontent.com/michaelrice/dot-files/master/.gitconfig
 
 # Create the stack user
 echo "Creating the stack user..."
@@ -61,8 +63,8 @@ enable_plugin ceilometer https://git.openstack.org/openstack/ceilometer.git mast
 enable_service horizon
 
 # cloudkitty
-enable_plugin cloudkitty https://github.com/openstack/cloudkitty master
-enable_service ck-api ck-proc
+# enable_plugin cloudkitty https://github.com/openstack/cloudkitty master
+# enable_service ck-api ck-proc
 EOF"
 
 sudo su stack -c "./stack.sh"
