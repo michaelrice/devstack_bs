@@ -63,8 +63,8 @@ enable_plugin ceilometer https://git.openstack.org/openstack/ceilometer.git mast
 enable_service horizon
 
 # cloudkitty
-# enable_plugin cloudkitty https://github.com/openstack/cloudkitty master
-# enable_service ck-api ck-proc
+enable_plugin cloudkitty https://github.com/openstack/cloudkitty master
+enable_service ck-api ck-proc
 EOF"
 
 sudo su stack -c "./stack.sh"
