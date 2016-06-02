@@ -13,6 +13,8 @@ if [[ $# -eq 0 ]]; then
 else
     DEVSTACK_BRANCH=$1
 fi
+echo "Installing ${DEVSTACK_BRANCH}"
+sleep 3
 
 # Install essential packages
 echo "Installing essential packages..."
@@ -57,14 +59,17 @@ SERVICE_PASSWORD=secrete
 SERVICE_TOKEN=secrete
 
 # ceilometer
-enable_plugin ceilometer https://git.openstack.org/openstack/ceilometer.git master
+# enable_plugin ceilometer https://git.openstack.org/openstack/ceilometer.git master
 
 # horizon
 enable_service horizon
 
+# Swift
+# enable_service s-proxy s-object s-container s-account
+
 # cloudkitty
-enable_plugin cloudkitty https://github.com/openstack/cloudkitty master
-enable_service ck-api ck-proc
+#enable_plugin cloudkitty https://github.com/openstack/cloudkitty master
+#enable_service ck-api ck-proc
 EOF"
 
 sudo su stack -c "./stack.sh"
